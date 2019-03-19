@@ -507,7 +507,7 @@ export default createAppContainer(createStackNavigator({
 	}
 },
 {
-	initialRouteName: 'Chat',
+	initialRouteName: 'Home',
 	headerMode: null,
 	cardStyle: {
 		shadowOpacity: 0,
