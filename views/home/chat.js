@@ -69,7 +69,11 @@ class Chat extends Component {
   }
 
   render() {
-	const { title } = this.props.navigation.state.params;
+	let title = "Frida Chat";
+	const { params } = this.props.navigation.state;
+	if (params && params.title) {
+		let { title } = this.props.navigation.state.params;
+	}
 	return (
 		<Container style={styles.container}>
 			<Header>

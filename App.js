@@ -14,7 +14,8 @@ console.ignoredYellowBox = ['Warning:'];
 
 export default class App extends React.Component {
   state = {
-    loading: true,
+	loading: true,
+	// loggedIn: true,
     token: null
   }
   componentWillMount() {

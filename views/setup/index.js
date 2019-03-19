@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, Text  } from 'react-native';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 import Login from './login';
 import SetupForm from './setupForm';
 
@@ -38,8 +38,9 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default createStackNavigator({
-  Login: {
+export default createAppContainer(createStackNavigator(
+{
+  	Login: {
 		screen: Setup
 	},
 	Role: {
@@ -56,9 +57,9 @@ export default createStackNavigator({
 	}
 },
 {
-		initialRouteName: 'Login',
-		headerMode: null,
-		cardStyle: {
-			shadowOpacity: 0,
-		}
-});
+	initialRouteName: 'Login',
+	headerMode: null,
+	cardStyle: {
+		shadowOpacity: 0
+	}
+}));

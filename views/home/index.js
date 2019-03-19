@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, Animated, TouchableWithoutFeedback  } from 'react-native';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { MapView, Location } from 'expo';
 import { Container, Header, Button, Icon, Content, Drawer } from 'native-base';
 import CustomTitle from '../common/customTitle';
@@ -477,7 +477,7 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default createStackNavigator({
+export default createAppContainer(createStackNavigator({
 	Home: {
 		screen: Home
 	},
@@ -507,9 +507,9 @@ export default createStackNavigator({
 	}
 },
 {
-	initialRouteName: 'Home',
+	initialRouteName: 'Chat',
 	headerMode: null,
 	cardStyle: {
 		shadowOpacity: 0,
 	}
-});
+}));

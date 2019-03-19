@@ -2,12 +2,16 @@
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
   "dependencies": {
-    "expo": "^29.0.0",
-    "native-base": "^2.7.0",
-    "react": "16.3.1",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-29.0.0.tar.gz",
-    "react-native-gifted-chat": "^0.4.3",
-    "react-navigation": "^2.6.2",
-    "socket.io-client": "^2.1.1"
+    "expo": "^32.0.0",
+    "native-base": "^2.12.1",
+    "react": "16.5.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "react-native-gifted-chat": "^0.7.2",
+    "react-navigation": "^3.5.0",
+    "socket.io-client": "^2.1.1",
+    "websocket": "^1.0.28"
+  },
+  "devDependencies": {
+    "babel-preset-expo": "^5.1.1"
   }
 }
