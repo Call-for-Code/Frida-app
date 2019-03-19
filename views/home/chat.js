@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Container, Header, Button, Icon, Content } from 'native-base';
 import CustomTitle from '../common/customTitle';
-import { GiftedChat } from 'react-native-gifted-chat';
+import CustomChatActions from './chat/CustomChatActions';
+import { GiftedChat, Composer } from 'react-native-gifted-chat';
 
 a = false;
 class Chat extends Component {
@@ -58,14 +59,36 @@ class Chat extends Component {
 
   renderContent() {
     return (
-      <GiftedChat
-        messages={this.state.messages}
-        onSend={messages => this.onSend(messages)}
-        user={{
-          _id: 1,
+		<GiftedChat
+			messages={this.state.messages}
+			renderSend={this.renderCustomActions}
+			renderComposer={this.renderComposer}
+			onSend={messages => this.onSend(messages)}
+			user={{
+			_id: 1,
+			}}
+		/>
+    )
+  }
+
+  renderCustomActions(props) {
+    return <CustomChatActions {...props} onSend={this.onSendFromUser} />;
+  }
+
+  renderComposer(props) {
+    return (
+      <Composer
+        {...props}
+        textInputProps={{
+		  blurOnSubmit: false,
+          returnKeyType: 'send',
+          multiline: false,
+          onSubmitEditing: event => {
+            props.onSend({ text: event.nativeEvent.text.trim() }, true);
+          },
         }}
       />
-    )
+    );
   }
 
   render() {
