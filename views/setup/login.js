@@ -3,6 +3,7 @@ import { View, StyleSheet, Image, Keyboard, TouchableWithoutFeedback  } from 're
 import { Input, Item, Button, Text } from 'native-base';
 import AuthAPI from '../../api/auth';
 import UserInfoStorage from '../../storage/userInfo';
+import config from "./../../api/config";
 
 class Login extends Component {
 
@@ -30,21 +31,67 @@ class Login extends Component {
 				errorMessage: '',
 				processing: true
 			}, () => {
-				AuthAPI.validate(this.state.id, this.state.validationCode)
+				if (config.FAKE_MODE) {
+					UserInfoStorage.set({
+						name: this.state.name,
+						token: 'token_test',
+						phoneNumber: this.state.phoneNumber
+					});
+					this.props.navigation.navigate({
+						routeName: 'Role',
+						params: {
+							title: 'Role',
+							onFinishSetup: this.props.onFinishSetup
+						}
+					});
+					return;
+				} else {
+					AuthAPI.validate(this.state.id, this.state.validationCode)
+					.then(res => {
+						console.log(res);
+						if (res.token) {
+							UserInfoStorage.set({
+								name: this.state.name,
+								token: res.token,
+								phoneNumber: this.state.phoneNumber
+							});
+							this.props.navigation.navigate({
+								routeName: 'Role',
+								params: {
+									title: 'Role',
+									onFinishSetup: this.props.onFinishSetup
+								}
+							});
+						} else {
+							this.setState({ processing: false, errorMessage: 'Internal error - try again' });
+						}
+					})
+					.catch(err => {
+						console.log(err);
+					});
+					return;
+				}
+			});
+		}
+		this.setState({
+			errorMessage: '',
+			processing: true
+		}, () => {
+			if (config.FAKE_MODE) {
+				this.setState({
+					validate: true,
+					processing: false,
+					id: '1'
+				});
+			} else {
+				AuthAPI.auth(this.state.name, this.state.phoneNumber)
 				.then(res => {
 					console.log(res);
-					if (res.token) {
-						UserInfoStorage.set({
-							name: this.state.name,
-							token: res.token,
-							phoneNumber: this.state.phoneNumber
-						});
-						this.props.navigation.navigate({
-							routeName: 'Role',
-							params: {
-								title: 'Role',
-								onFinishSetup: this.props.onFinishSetup
-							}
+					if (res.id) {
+						this.setState({
+							validate: true,
+							processing: false,
+							id: res.id
 						});
 					} else {
 						this.setState({ processing: false, errorMessage: 'Internal error - try again' });
@@ -53,29 +100,7 @@ class Login extends Component {
 				.catch(err => {
 					console.log(err);
 				});
-			});
-			return;
-		}
-		this.setState({
-			errorMessage: '',
-			processing: true
-		}, () => {
-			AuthAPI.auth(this.state.name, this.state.phoneNumber)
-			.then(res => {
-				console.log(res);
-				if (res.id) {
-					this.setState({
-						validate: true,
-						processing: false,
-						id: res.id
-					});
-				} else {
-					this.setState({ processing: false, errorMessage: 'Internal error - try again' });
-				}
-			})
-			.catch(err => {
-				console.log(err);
-			});
+			}
 		});
 	}
 	renderAuthFields() {

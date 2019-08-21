@@ -35,9 +35,10 @@ class School extends Component {
 
 connectSocket() {
 	const that = this;
+	// replace this line with your websocket in node-red js
 	var client = new WS('ws://iot-image-analysis.mybluemix.net/ws/receiveMessage');
 	client.onerror = function(e) {
-		console.log('Connection Error', e);
+		// console.log('Connection Error', e);
 	};
 	client.onopen = function() {
 
