@@ -37,14 +37,12 @@ class SetupForm extends Component {
 				this._getLocationAsync();
 			} else if (current === 2) {
 				this._allowNotificationsAsync();
-			} else if (current === 3) {
-				if (!config.FAKE_MODE) {
-					this.setState({ nextDisabled: true });
-					SetupAPI.getInstitutions(this.state.longitude, this.state.latitude)
-					.then(institutions => {
-						this.setState({ institutions, nextDisabled: false });
-					});
-				}
+			} else if (current === 3 && !config.FAKE_MODE) {
+				this.setState({ nextDisabled: true });
+				SetupAPI.getInstitutions(this.state.longitude, this.state.latitude)
+				.then(institutions => {
+					this.setState({ institutions, nextDisabled: false });
+				});
 			}
 		});
 	}
