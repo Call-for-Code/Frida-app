@@ -9,6 +9,7 @@ import UserInfoStorage from './storage/userInfo';
 import SetupAPI from './api/setup';
 import StorageUtils from './storage/utils';
 // import io from 'socket.io-client';
+import config from './api/config';
 
 console.ignoredYellowBox = ['Warning:'];
 
@@ -70,10 +71,7 @@ export default class App extends React.Component {
             screenProps={{
               token: this.state.token,
               onFinishSetup: (setupData) => { 
-                SetupAPI.setupUser(setupData.role, setupData.institutionId, setupData.locationId, setupData.notificationToken)
-                .then(response => {
-                  console.log(response);
-                  if (response.message === 'User Created') {
+                if (config.FAKE_MODE) {
                     UserInfoStorage.set({
                       role: setupData.role,
                       institution: setupData.institution,
@@ -82,10 +80,24 @@ export default class App extends React.Component {
                       notificationToken: setupData.notificationToken
                     });
                     this.setState({ loggedIn: true });
-                  } else {
-                    alert('Internal Error, something went wrong');
-                  }
-                });
+                } else {
+                  SetupAPI.setupUser(setupData.role, setupData.institutionId, setupData.locationId, setupData.notificationToken)
+                  .then(response => {
+                    console.log(response);
+                    if (response.message === 'User Created') {
+                      UserInfoStorage.set({
+                        role: setupData.role,
+                        institution: setupData.institution,
+                        institutionId: setupData.institutionId,
+                        locationId: setupData.locationId,
+                        notificationToken: setupData.notificationToken
+                      });
+                      this.setState({ loggedIn: true });
+                    } else {
+                      alert('Internal Error, something went wrong');
+                    }
+                  });
+                }
             }}} />
         }
       </StyleProvider>

@@ -1,5 +1,5 @@
 
 export default {
-	"FAKE_MODE": false,
+	"FAKE_MODE": true,
 	"FAKE_LOCATION": true
 };

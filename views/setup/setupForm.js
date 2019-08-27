@@ -5,6 +5,7 @@ import CustomTitle from '../common/customTitle';
 import { Entypo } from '@expo/vector-icons';
 import { Location, Notifications, Permissions } from 'expo';
 import SetupAPI from '../../api/setup';
+import config from "../../api/config";
 
 const pages = ['Role', 'Location', 'Notifications', 'Institution'];
 
@@ -36,7 +37,7 @@ class SetupForm extends Component {
 				this._getLocationAsync();
 			} else if (current === 2) {
 				this._allowNotificationsAsync();
-			} else if (current === 3) {
+			} else if (current === 3 && !config.FAKE_MODE) {
 				this.setState({ nextDisabled: true });
 				SetupAPI.getInstitutions(this.state.longitude, this.state.latitude)
 				.then(institutions => {
@@ -88,7 +89,7 @@ class SetupForm extends Component {
 		const title = this.props.navigation.state.params.title;
 		let nextRouteName = pages[pages.indexOf(title) + 1];
 		if (!nextRouteName) {
-			if (!this.state.locationId || !this.state.institutionId) {
+			if (!config.FAKE_MODE && (!this.state.locationId || !this.state.institutionId)) {
 				alert('Please select a listed institution');
 				return;
 			}

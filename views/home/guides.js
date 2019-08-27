@@ -14,7 +14,7 @@ class Guides extends Component {
 		{ id: 'volcano', title: 'Volcanic Eruption', icon: <Image source={require('../../assets/volcanic-guide-icon.png')} /> },
 		{ id: 'flooding', title: 'Flooding', icon: <Image source={require('../../assets/flooding-guide-icon.png')} /> },
 		{ id: 'landslide', title: 'Landslide', icon: <Image source={require('../../assets/landslide-guide-icon.png')} /> },
-		{ id: 'hurricane', title: 'Hurricane', icon: <Image source={require('../../assets/hurricane-guide-icon.png')} /> },
+		// { id: 'hurricane', title: 'Hurricane', icon: <Image source={require('../../assets/hurricane-guide-icon.png')} /> }, -- need to defined properties in assets/guidesContent.json
 		{ id: 'tornado', title: 'Tornado', icon: <Image source={require('../../assets/tornado-guide-icon.png')} /> }
 	]
   };
@@ -43,9 +43,9 @@ class Guides extends Component {
 		const cardsInEachRow = 2;
 		const { guides } = this.state;
 		const cardRows = [];
-		for (const i = 0; i < guides.length; i += cardsInEachRow) {
+		for (let i = 0; i < guides.length; i += cardsInEachRow) {
 			const cardRow = [];
-			for (const j=0; j < cardsInEachRow; j+= 1) {
+			for (let j=0; j < cardsInEachRow; j+= 1) {
 				if (guides[i+j]) {
 					cardRow.push(
 						<View key={i+j} style={{flex: 1}}>
